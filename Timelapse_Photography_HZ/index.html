@@ -10,14 +10,15 @@
 			height: 100%;
 		}
 		body {
-			background: url();
+			/*background: url();*/
 		}
 	</style>
+
 </head>
 <body>
 <img id="img">
 <script type="text/javascript">
-var Count = 800;
+var Count = 500;
 var xhr = new XMLHttpRequest;
 window.List = [];
 var loaded = 0;
@@ -32,28 +33,31 @@ var run = function(){
 		}, key * 120);
 	});
 }
-xhr.open("GET","http://photo.weibo.com/photos/get_all?uid=3329924902&album_id=3572827348456361&count=" + Count + "&page=1&type=3")
-xhr.onloadend = function(ev){
-	var obj = JSON.parse(xhr.responseText); 
-	var data = obj.data.photo_list; 
-	var loadFunc = function(){
+var jsonH = function(data){
+	// var obj = JSON.parse(xhr.responseText); 
+	// var data = obj;
+	function loadFunc(){
 		loaded++;
-		percent = Math.round(loaded / Count); 
+		var percent = Math.round(loaded / Count * 100); 
 		document.title = percent + "%";
-		if(percent > 0.9) {
+		if(percent > 90) {
 			if(!running) run()
+		}
+		if(percent > 99) {
+			document.title = "杭州空气实况";
 		}
 
 	}
 	data.map(function(item,key){
-		if(item && item.pic_host) 
+		if(item && item.original_pic) 
 			List[key] = new Image()
-			List[Key].onload = loadFunc;
-			List[key].src=item.pic_host+"/large/"+item.pic_name;
-	})}
-xhr.send()
-
+			List[key].onload = loadFunc;
+			List[key].src = item.original_pic;
+			console.log(item.original_pic)
+	})
+}
 </script>
+<script src="http://benlabs.sinaapp.com/timelapse_hz/fetch.php?count=5"></script>
 </body>
 </html>
 
