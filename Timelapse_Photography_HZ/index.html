@@ -36,7 +36,7 @@ var run = function(){
 	List.reverse();
 	List.forEach(function(img, key){
 		setTimeout(function(){
-			el.src = img.src;
+			if(img.width > img.height) el.src = img.src;
 		}, key * 120);
 	});
 }
