@@ -13,7 +13,17 @@
 			/*background: url();*/
 			background-color: rgb(200,200,169);
 			-webkit-animation: bodya 10s infinite;
+			font-size: 0;
 		}
+		.time {
+			color: #FFF;
+			opacity: .2;
+			position: fixed;
+			bottom: 10px;
+			right: 20px;
+			font-size: 16px;
+		}
+		
 		@-webkit-keyframes bodya {
 			50% { 
 				background-color: rgb(131,175,155);
@@ -23,6 +33,7 @@
 
 </head>
 <body>
+<span class="time"></span>
 <img id="img">
 <script type="text/javascript">
 var Count = 500;
@@ -33,10 +44,12 @@ var running = false;
 var run = function(){
 	running = true;
 	el = document.getElementById('img');
+	timer = document.getElementsByClassName('time')[0];
 	List.reverse();
 	List.forEach(function(img, key){
 		setTimeout(function(){
 			if(img.width > img.height) el.src = img.src;
+			timer.textContent = img.time_str;
 		}, key * 120);
 	});
 }
@@ -60,6 +73,8 @@ var jsonH = function(data){
 			List[key] = new Image()
 			List[key].onload = loadFunc;
 			List[key].src = item.original_pic;
+			var time = new Date(Date.parse(item.created_at));
+			List[key].time_str = time.getFullYear() + "/" + (time.getMonth() + 1) + "/" + time.getDate() + " " + time.getHours() + ":" + time.getMinutes();
 			console.log(item.original_pic)
 	})
 }
